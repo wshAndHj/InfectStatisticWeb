@@ -96,11 +96,13 @@ public class InfectStatistic {
 		                }
 		                reader = new BufferedReader(new FileReader(file));
 		                while ((line = reader.readLine()) != null) {
-		                    if (line.charAt(0) != '/') {//该行不为注释
+		                    if (line.length() > 1 && line.charAt(0) != '/') {//该行不为注释
 		                        updateProvinceInfo(line);
 		                    }
 		                }
 		            }
+		            ProvinceInfo countryInfo = new ProvinceInfo("");
+		            
 		        }catch (Exception e){
 
 		        }
