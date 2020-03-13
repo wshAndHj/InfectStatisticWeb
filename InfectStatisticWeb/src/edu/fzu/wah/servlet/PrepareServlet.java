@@ -6,6 +6,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.List;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -14,6 +15,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import edu.fzu.wah.pojo.ProvinceInfo;
+import edu.fzu.wah.pojo.ProvinceMigration;
 import edu.fzu.wah.service.InfectStatistic;
 import edu.fzu.wah.service.ProcessParameter;
 
@@ -41,12 +43,19 @@ public class PrepareServlet extends HttpServlet {//该类用于最初的调用be
 		// TODO Auto-generated method stub
 		request.setCharacterEncoding("utf-8");
 		
-		String parameters = "-list -log C:\\Users\\绍鸿\\Desktop\\部分疫情日志log"
-				+ " -date 2020-01-19 -out C:\\Users\\绍鸿\\Desktop\\out.txt";
+		String parameters = "-list -log F:\\GitHub\\homework\\221701421\\log\\"
+				+ " -date 2020-01-22 -out C:\\Users\\绍鸿\\Desktop\\out.txt";
 		prepareOpearte(parameters);
-		ProvinceInfo p = getProvinceInfo("广西");
-		System.out.println("广西 "+ p.getInfectNum() + "  " +
+		ProvinceInfo p = getProvinceInfo("湖北");
+		System.out.println("湖北 "+ p.getInfectNum() + "  " +
 				p.getSuspectedNum() + "  " + p.getCureNum() + "  " + p.getDiedNum());
+		p = getProvinceInfo("全国");
+		System.out.println("全国 "+ p.getInfectNum() + "  " +
+				p.getSuspectedNum() + "  " + p.getCureNum() + "  " + p.getDiedNum());
+		List<ProvinceMigration> list = p.getMigrationInList();
+		for (ProvinceMigration provinceMigration : getProvinceMigrationsList("全国", "out")) {
+			System.out.println(provinceMigration.getName() + provinceMigration.getOutRate());
+		}
 	}
 
 	/**
@@ -65,7 +74,8 @@ public class PrepareServlet extends HttpServlet {//该类用于最初的调用be
 		//processParameter.statistic();//开始统计
 		InfectStatistic infectStatistic = new InfectStatistic();
         infectStatistic.statistic(processParameter.getLogDir(), processParameter.getDate());
-        System.out.println(infectStatistic.getProvinceMap().get("全国").getCureNum());
+        //System.out.println(infectStatistic.getProvinceMap().get("全国"));
+        //System.out.println(infectStatistic.getProvinceMap().get("全国").getCureNum());
         allProvincesInfoMap = infectStatistic.getProvinceMap();//各省份的疫情信息(包含全国)，信息包含四个数据和省名
 	}
 	
@@ -78,6 +88,16 @@ public class PrepareServlet extends HttpServlet {//该类用于最初的调用be
 			System.out.println("省份"+name+"不存在");
 			return null;
 		}
+	}
+	
+	private List<ProvinceMigration> getProvinceMigrationsList(String name, String type){
+		ProvinceInfo provinceInfo = getProvinceInfo(name);
+		if(type.equals("in")) {
+			return provinceInfo.getProvinceMigrations().subList(0, 10);
+		}else {
+			return provinceInfo.getMigrationOutList().subList(0, 10);
+		}
+		
 	}
 	
 }
