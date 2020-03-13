@@ -101,8 +101,12 @@ public class InfectStatistic {
 		                    }
 		                }
 		            }
-		            ProvinceInfo countryInfo = new ProvinceInfo("");
-		            
+		            ProvinceInfo countryInfo = new ProvinceInfo("全国");
+		            countryInfo.setCureNum(cureTotalNum);
+		            countryInfo.setDiedNum(diedTotalNum);
+		            countryInfo.setInfectNum(infectTotalNum);
+		            countryInfo.setSuspectedNum(suspectedTotalNum);
+		            provinceMap.put("全国", countryInfo);		            
 		        }catch (Exception e){
 
 		        }

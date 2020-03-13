@@ -54,6 +54,26 @@ public class ProvinceInfo {
     public int getCureNum() {
         return cureNum;
     }
+    
+    public void setName(String name) {
+		this.name = name;
+	}
+
+	public void setInfectNum(int infectNum) {
+		this.infectNum = infectNum;
+	}
+
+	public void setSuspectedNum(int suspectedNum) {
+		this.suspectedNum = suspectedNum;
+	}
+
+	public void setDiedNum(int diedNum) {
+		this.diedNum = diedNum;
+	}
+
+	public void setCureNum(int cureNum) {
+		this.cureNum = cureNum;
+	}
 
     public int cureNumAdd(int num){
         return cureNum += num;
