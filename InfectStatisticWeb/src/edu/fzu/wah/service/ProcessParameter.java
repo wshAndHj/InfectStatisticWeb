@@ -45,11 +45,11 @@ public class ProcessParameter {
         logDir = new File(dirPath);//日志文件夹
 
         int outputIndex = list.indexOf("-out");//输出文件目录
-        if (outputIndex < 0) {
-            System.out.println("错误：没有传入输出文件路径");
-            return;
-        }
-        outputPath = args[outputIndex + 1];
+//        if (outputIndex < 0) {
+//            System.out.println("错误：没有传入输出文件路径");
+//            return;
+//        }
+        //outputPath = args[outputIndex + 1];
 
         int provinceListIndex = list.indexOf("-province");//传入参数中-province的下标索引
         int provinceListLastIndex = findLastIndex(args, provinceListIndex);//查询的最后一个省份的下标索引

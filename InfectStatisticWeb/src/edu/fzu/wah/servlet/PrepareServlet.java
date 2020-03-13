@@ -33,7 +33,9 @@ public class PrepareServlet extends HttpServlet {//该类用于最初的调用be
     public PrepareServlet() {
         super();
         // TODO Auto-generated constructor stub
-       
+		String parameters = "-list -log F:\\GitHub\\InfectStatisticWeb\\InfectStatisticWeb\\log"
+				+ " -date 2020-02-02";
+		prepareOpearte(parameters);
     }
 
 	/**
@@ -42,11 +44,10 @@ public class PrepareServlet extends HttpServlet {//该类用于最初的调用be
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// TODO Auto-generated method stub
 		request.setCharacterEncoding("utf-8");
-		
-		String parameters = "-list -log F:\\GitHub\\homework\\221701421\\log\\"
-				+ " -date 2020-01-22 -out C:\\Users\\绍鸿\\Desktop\\out.txt";
-		prepareOpearte(parameters);
-		ProvinceInfo p = getProvinceInfo("湖北");
+
+		request.getSession().setAttribute("全国数据", allProvincesInfoMap);
+		System.out.println("添加完成");
+		request.getRequestDispatcher("epidemicCase.jsp").forward(request, response);
 	}
 
 	/**
@@ -62,11 +63,8 @@ public class PrepareServlet extends HttpServlet {//该类用于最初的调用be
 		String []args = parameters.split(" ");
 		ProcessParameter processParameter = new ProcessParameter();
 		processParameter.processParameters(args);
-		//processParameter.statistic();//开始统计
 		InfectStatistic infectStatistic = new InfectStatistic();
         infectStatistic.statistic(processParameter.getLogDir(), processParameter.getDate());
-        //System.out.println(infectStatistic.getProvinceMap().get("全国"));
-        //System.out.println(infectStatistic.getProvinceMap().get("全国").getCureNum());
         allProvincesInfoMap = infectStatistic.getProvinceMap();//各省份的疫情信息(包含全国)，信息包含四个数据和省名
 	}
 	
@@ -81,6 +79,8 @@ public class PrepareServlet extends HttpServlet {//该类用于最初的调用be
 		}
 	}
 	
+	
+	//获取某个省份(也可以是全国)的迁入/迁出前十名热门省份，迁入还是迁出根据type判断(in：迁入, out：迁出)
 	private List<ProvinceMigration> getProvinceMigrationsList(String name, String type){
 		ProvinceInfo provinceInfo = getProvinceInfo(name);
 		if(type.equals("in")) {
