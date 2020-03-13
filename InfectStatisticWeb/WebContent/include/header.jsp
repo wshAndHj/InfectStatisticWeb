@@ -30,5 +30,36 @@
 	src="https://api.map.baidu.com/api?ak=KQzYf2XpU8I6WA42psXOl4aroUUBK7oR&__ec_v__=20190126"></script>
 <script type="text/javascript"
 	src="https://cdn.jsdelivr.net/npm/echarts/dist/extension/bmap.min.js"></script>
+<script>
+	function init() {
+		var maps = new Array();
+		maps[0] = "nowInfect";
+		maps[1] = "allInfect";
+		var ths = document.getElementById("doubleChoiceTr").children;
+		var check = 0;
+		for (var i = 0; i < ths.length; i++) {
+			ths[i].index = i;
+			ths[i].onclick = function() {
+				if (check != this.index) {
+					var oldId = maps[check];
+					ths[check].className = 'unselected';
+					check = this.index;
+					var newId = maps[check];
+					ths[check].className = 'selected';
+					document.getElementById(oldId).id = newId;
+					if (check == 0) {
+						initNowInfect();
+					} else {
+						initAllInfect();
+					}
+				}
+			};
+
+		}
+		//for(var i=0;)
+		//alert("ok");
+	}
+	window.onload = init;
+</script>
 </head>
 <body>

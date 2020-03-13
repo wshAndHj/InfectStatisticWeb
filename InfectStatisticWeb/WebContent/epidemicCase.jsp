@@ -36,6 +36,10 @@
 				</tr>
 			</table>
 		</div>
+		<div id="nowInfect"></div>
+		<script>
+			initNowInfect();
+		</script>
 		<%@include file="include/footer.jsp"%>
 	</div>
 </body>
