@@ -47,15 +47,6 @@ public class PrepareServlet extends HttpServlet {//该类用于最初的调用be
 				+ " -date 2020-01-22 -out C:\\Users\\绍鸿\\Desktop\\out.txt";
 		prepareOpearte(parameters);
 		ProvinceInfo p = getProvinceInfo("湖北");
-		System.out.println("湖北 "+ p.getInfectNum() + "  " +
-				p.getSuspectedNum() + "  " + p.getCureNum() + "  " + p.getDiedNum());
-		p = getProvinceInfo("全国");
-		System.out.println("全国 "+ p.getInfectNum() + "  " +
-				p.getSuspectedNum() + "  " + p.getCureNum() + "  " + p.getDiedNum());
-		List<ProvinceMigration> list = p.getMigrationInList();
-		for (ProvinceMigration provinceMigration : getProvinceMigrationsList("全国", "out")) {
-			System.out.println(provinceMigration.getName() + provinceMigration.getOutRate());
-		}
 	}
 
 	/**

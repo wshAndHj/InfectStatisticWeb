@@ -41,7 +41,7 @@ public class ProvinceInfo {
     	List<String> list = Arrays.asList(provinceList);
     	int index = list.indexOf(name);
     	provinceMigrations.get(index).addInNum(num);
-    	inTotalNum++;
+    	inTotalNum+=num;
     }
     
     public void addProvinceMigrationOut(String name, int num) {
