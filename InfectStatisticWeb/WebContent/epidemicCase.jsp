@@ -43,7 +43,7 @@
 							class="glyphicon glyphicon-chevron-left"></span></a></td>
 					<td id="currentMonth"><%=currentMonth%></td>
 					<td><a href=""><span
-							class="glyphicon glyphicon-chevron-right"></span></a></span></td>
+							class="glyphicon glyphicon-chevron-right"></span></a></td>
 				</tr>
 			</table>
 		</div>
