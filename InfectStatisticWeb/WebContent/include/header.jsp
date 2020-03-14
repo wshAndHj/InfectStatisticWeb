@@ -13,6 +13,7 @@
 <link href="http://libs.baidu.com/bootstrap/3.0.3/css/bootstrap.min.css"
 	rel="stylesheet">
 <link href="css/front/style.css" rel="stylesheet">
+<link href="css/front/epidemicDetails.css" rel="stylesheet">
 <script src="https://cdn.bootcss.com/echarts/4.2.1-rc1/echarts.min.js"></script>
 <script type="text/javascript"
 	src="https://cdn.jsdelivr.net/npm/echarts/dist/echarts.min.js"></script>
@@ -42,32 +43,7 @@
 	//System.out.println(dateList.length);
 %>
 <script>
-	function init() {
-		var maps = new Array();
-		maps[0] = "nowInfect";
-		maps[1] = "allInfect";
-		var ths = document.getElementById("doubleChoiceTr").children;
-		var check = 0;
-		for (var i = 0; i < ths.length; i++) {
-			ths[i].index = i;
-			ths[i].onclick = function() {
-				if (check != this.index) {
-					var oldId = maps[check];
-					ths[check].className = 'unselected';
-					check = this.index;
-					var newId = maps[check];
-					ths[check].className = 'selected';
-					document.getElementById(oldId).id = newId;
-					if (check == 0) {
-						initNowInfect();
-					} else {
-						initAllInfect();
-					}
-				}
-			};
 
-		}
-	}
 	var dateList = [ [ "2018-02-01" ], [ "2018-02-02" ], [ "2018-02-03" ],
 			[ "2018-02-04" ], [ "2018-02-05" ], [ "2018-02-06" ],
 			[ "2018-02-07" ], [ "2018-02-08" ], [ "2018-02-09" ],
@@ -85,8 +61,7 @@
 	//	dateList[i][0]=temList[i];
 	//}
 	var currentMonth = '<%=currentMonth%>';
-	var currentDay = '2018-02-27';
-	window.onload = init;
+	var currentDay = '2020-02-29';
 </script>
 </head>
 <body>

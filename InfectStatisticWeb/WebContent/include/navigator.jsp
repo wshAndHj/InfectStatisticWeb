@@ -9,6 +9,25 @@
 %>
 
 <script type="text/javascript">
+function initInfect() {
+	var maps = new Array();
+	maps[0] = document.getElementById("nowInfect");
+	maps[1] = document.getElementById("allInfect");
+	var ths = document.getElementById("doubleChoiceTr").children;
+	var check = 0;
+	for (var i = 0; i < ths.length; i++) {
+		ths[i].index = i;
+		ths[i].onclick = function() {
+			if (check != this.index) {
+				ths[check].className = 'unselected';
+				maps[check].className = 'hidden';
+				check = this.index;
+				ths[check].className = 'selected';
+				maps[check].className = 'show';
+			}
+		};
+	}
+}
 		function initNowInfect() {
 			var myChart = echarts.init(document.getElementById('nowInfect'));
 			var app = {};
@@ -306,4 +325,3 @@
 			calander.setOption(option);
 		}
 	</script>
-	

@@ -1,12 +1,22 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8"
-    pageEncoding="UTF-8"%>
-<!DOCTYPE html>
-<html>
-<head>
-<meta charset="UTF-8">
-<title>Insert title here</title>
+<%@ page pageEncoding="UTF-8"%>
+<%
+	if (session.getAttribute("全国数据") == null) {
+		request.getRequestDispatcher("PrepareServlet").forward(request, response);
+	}
+%>
+<%@include file="include/header.jsp"%>
+<%@include file="include/navigator.jsp"%>
+<%@include file="include/detailsJS.jsp"%>
+<%
+	String provinceName = request.getParameter("provinceName");
+%>
+<title>疫情详情--<%=provinceName%></title>
 </head>
-<body>
 
+<body>
+	<div id="main">
+		
+		<%@include file="include/footer.jsp"%>
+	</div>
 </body>
 </html>

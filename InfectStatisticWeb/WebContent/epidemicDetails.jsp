@@ -1,14 +1,16 @@
 <%@ page pageEncoding="UTF-8"%>
-<% 
-	if(session.getAttribute("全国数据") == null)
-	{
-		request.getRequestDispatcher("PrepareServlet").forward(request, response);		
+<%
+	if (session.getAttribute("全国数据") == null) {
+		request.getRequestDispatcher("PrepareServlet").forward(request, response);
 	}
 %>
 <%@include file="include/header.jsp"%>
 <%@include file="include/navigator.jsp"%>
-<%String provinceName=request.getParameter("provinceName"); %>
-<title>疫情详情--<%=provinceName %></title>
+<%@include file="include/detailsJS.jsp"%>
+<%
+	String provinceName = request.getParameter("provinceName");
+%>
+<title>疫情详情--<%=provinceName%></title>
 </head>
 
 <body>
@@ -29,19 +31,24 @@
 					<th>累计死亡</th>
 				</tr>
 				<tr>
-					<%//provincesMap在navigator.jsp中声明 %>
-					<td class="infect"><%=provincesMap.get(provinceName).getInfectNum() %></td>
-					<td class="suspected"><%=provincesMap.get(provinceName).getSuspectedNum() %></td>
+					<%
+						//provincesMap在navigator.jsp中声明
+					%>
+					<td class="infect"><%=provincesMap.get(provinceName).getInfectNum()%></td>
+					<td class="suspected"><%=provincesMap.get(provinceName).getSuspectedNum()%></td>
 					<td class="cure"><%=provincesMap.get(provinceName).getCureNum()%></td>
-					<td class="died"><%=provincesMap.get(provinceName).getDiedNum() %></td>
+					<td class="died"><%=provincesMap.get(provinceName).getDiedNum()%></td>
 				</tr>
 			</table>
-		</div><div id="currentTime">
+		</div>
+		<div id="currentTime">
 			<table>
 				<tr>
-					<td><a href=""><span class="glyphicon glyphicon-chevron-left"></span></a></td>
+					<td><a href=""><span
+							class="glyphicon glyphicon-chevron-left"></span></a></td>
 					<td id="currentMonth"><%=currentMonth%></td>
-					<td><a href=""><span class="glyphicon glyphicon-chevron-right"></span></a></span></td>
+					<td><a href=""><span
+							class="glyphicon glyphicon-chevron-right"></span></a></span></td>
 				</tr>
 			</table>
 		</div>
@@ -49,7 +56,33 @@
 		<script>
 			initcalander(dateList, currentMonth, currentDay);
 		</script>
-		
+		<div id="diagramNewInfect" class="show"></div>
+		<script>
+			initDiagramNewInfect(currentDay);
+		</script>
+		<div id="diagramNewSuspected" class="hidden"></div>
+		<script>
+			initDiagramNewSuspected(currentDay);
+		</script>
+		<div id="diagramTotalCureAndDied" class="hidden"></div>
+		<script>
+			initTotalCureAndDied(currentDay);
+		</script>
+		<div class="thirdChoiceDiv">
+			<table>
+				<tr id="thirdChoiceTr">
+					<th class="selected">新增<br />确诊趋势
+					</th>
+					<th class="unselected">新增<br />疑似趋势
+					</th>
+					<th class="unselected">累计<br />治愈/死亡
+					</th>
+				</tr>
+			</table>
+		</div>
+		<script>
+			initDiagram();
+		</script>
 		<%@include file="include/footer.jsp"%>
 	</div>
 </body>

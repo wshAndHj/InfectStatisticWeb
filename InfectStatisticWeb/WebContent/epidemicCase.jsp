@@ -1,8 +1,7 @@
 <%@ page pageEncoding="UTF-8"%>
-<% 
-	if(session.getAttribute("全国数据") == null)
-	{
-		request.getRequestDispatcher("PrepareServlet").forward(request, response);		
+<%
+	if (session.getAttribute("全国数据") == null) {
+		request.getRequestDispatcher("PrepareServlet").forward(request, response);
 	}
 %>
 <%@include file="include/header.jsp"%>
@@ -27,19 +26,24 @@
 					<th>累计死亡</th>
 				</tr>
 				<tr>
-					<%//provincesMap在navigator.jsp中声明 %>
-					<td class="infect"><%=provincesMap.get("全国").getInfectNum() %></td>
-					<td class="suspected"><%=provincesMap.get("全国").getSuspectedNum() %></td>
+					<%
+						//provincesMap在navigator.jsp中声明
+					%>
+					<td class="infect"><%=provincesMap.get("全国").getInfectNum()%></td>
+					<td class="suspected"><%=provincesMap.get("全国").getSuspectedNum()%></td>
 					<td class="cure"><%=provincesMap.get("全国").getCureNum()%></td>
-					<td class="died"><%=provincesMap.get("全国").getDiedNum() %></td>
+					<td class="died"><%=provincesMap.get("全国").getDiedNum()%></td>
 				</tr>
 			</table>
-		</div><div id="currentTime">
+		</div>
+		<div id="currentTime">
 			<table>
 				<tr>
-					<td><a href=""><span class="glyphicon glyphicon-chevron-left"></span></a></td>
+					<td><a href=""><span
+							class="glyphicon glyphicon-chevron-left"></span></a></td>
 					<td id="currentMonth"><%=currentMonth%></td>
-					<td><a href=""><span class="glyphicon glyphicon-chevron-right"></span></a></span></td>
+					<td><a href=""><span
+							class="glyphicon glyphicon-chevron-right"></span></a></span></td>
 				</tr>
 			</table>
 		</div>
@@ -58,6 +62,13 @@
 		<div id="nowInfect"></div>
 		<script>
 			initNowInfect();
+		</script>
+		<div id="allInfect"></div>
+		<script>
+			initAllInfect();
+		</script>
+		<script type="text/javascript">
+			initInfect();
 		</script>
 		<%@include file="include/footer.jsp"%>
 	</div>
