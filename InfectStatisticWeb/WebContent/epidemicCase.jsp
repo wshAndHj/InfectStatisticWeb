@@ -27,7 +27,19 @@
 					<td class="died">累计死亡</td>
 				</tr>
 			</table>
+		</div><div id="currentTime">
+			<table>
+				<tr>
+					<td><a href=""><span class="glyphicon glyphicon-chevron-left"></span></a></td>
+					<td id="currentMonth"><%=currentMonth%></td>
+					<td><a href=""><span class="glyphicon glyphicon-chevron-right"></span></a></span></td>
+				</tr>
+			</table>
 		</div>
+		<div id="calander"></div>
+		<script>
+			initcalander(dateList, currentMonth, currentDay);
+		</script>
 		<div class="doubleChoiceDiv">
 			<table>
 				<tr id="doubleChoiceTr">
@@ -40,6 +52,7 @@
 		<script>
 			initNowInfect();
 		</script>
+		<p><%=dateList.length %></p>
 		<%@include file="include/footer.jsp"%>
 	</div>
 </body>

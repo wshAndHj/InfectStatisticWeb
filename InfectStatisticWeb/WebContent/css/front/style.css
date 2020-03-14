@@ -8,7 +8,6 @@ body {
 
 #main {
 	width: 1000px;
-	height: 1000px;
 	margin: 10px auto;
 	background-color: white;
 	border-radius: 20px;
@@ -131,8 +130,30 @@ body {
 	margin: 20px auto;
 	width: 900px;
 	height: 600px;
-}#allInfect {
+}
+
+#allInfect {
 	margin: 20px auto;
 	width: 900px;
 	height: 600px;
+}
+
+#calander {
+	margin: 0px auto;
+	width: 900px;
+	height: 300px;
+}
+
+#currentTime{
+	width: 900px;
+	margin: 0px auto;
+	text-align:center;
+}#currentTime table{
+	width: 500px;
+	margin: 0px auto;
+	text-align:center;
+}#currentTime td{
+	width: 500px;
+	margin: 10px auto;
+	text-align:center;
 }
