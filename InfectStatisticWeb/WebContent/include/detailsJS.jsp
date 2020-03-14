@@ -299,10 +299,10 @@
 	}
 	function initDiagram() {
 		var ths = document.getElementById("thirdChoiceTr").children;
-		var diagram=new Array();
-		diagram[0]= document.getElementById("diagramNewInfect");
-		diagram[1]= document.getElementById("diagramNewSuspected");
-		diagram[2]= document.getElementById("diagramTotalCureAndDied");
+		var diagram = new Array();
+		diagram[0] = document.getElementById("diagramNewInfect");
+		diagram[1] = document.getElementById("diagramNewSuspected");
+		diagram[2] = document.getElementById("diagramTotalCureAndDied");
 		check = 0;
 		for (var i = 0; i < ths.length; i++) {
 			ths[i].index = i;

@@ -12,8 +12,8 @@
 	<div id="main">
 		<div id="navitagorDiv">
 			<nav>
-				<a href="epidemicCase.jsp">疫情动态</a> <a href="admin_category_list">患者流动</a>
-				<a href="userServlet">图表定制</a> <a href="proventGuide">预防指南</a>
+				<a href="epidemicCase.jsp">疫情动态</a> <a href="migrationMap.jsp?provinceName=全国">患者流动</a>
+				<a href="userServlet">图表定制</a> <a href="proventGuide.jsp">预防指南</a>
 			</nav>
 		</div>
 		<div class="clear"></div>
@@ -59,11 +59,11 @@
 				</tr>
 			</table>
 		</div>
-		<div id="nowInfect"></div>
+		<div id="nowInfect" class="show"></div>
 		<script>
 			initNowInfect();
 		</script>
-		<div id="allInfect"></div>
+		<div id="allInfect" class="hidden"></div>
 		<script>
 			initAllInfect();
 		</script>
