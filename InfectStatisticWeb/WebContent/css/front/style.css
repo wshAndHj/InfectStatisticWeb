@@ -144,16 +144,20 @@ body {
 	height: 300px;
 }
 
-#currentTime{
+#currentTime {
 	width: 900px;
 	margin: 0px auto;
-	text-align:center;
-}#currentTime table{
+	text-align: center;
+}
+
+#currentTime table {
 	width: 500px;
 	margin: 0px auto;
-	text-align:center;
-}#currentTime td{
+	text-align: center;
+}
+
+#currentTime td {
 	width: 500px;
 	margin: 10px auto;
-	text-align:center;
+	text-align: center;
 }

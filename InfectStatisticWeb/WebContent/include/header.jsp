@@ -32,13 +32,13 @@
 	src="https://cdn.jsdelivr.net/npm/echarts/dist/extension/bmap.min.js"></script>
 <%
 	String currentMonth = "2018-02";
-	String[][] dateList = (String[][]) request.getAttribute("dateList");
-	String dateListString="";
-	for(int i=0;i<dateList.length-1;i++){
-		dateListString+=dateList[i][0];
-		dateListString+=",";
-	}
-	dateListString+=dateList[dateList.length-1][0];
+	//String[][] dateList = (String[][]) request.getAttribute("dateList");
+	//String dateListString="";
+	//for(int i=0;i<dateList.length-1;i++){
+	//	dateListString+=dateList[i][0];
+	//	dateListString+=",";
+	//}
+	//dateListString+=dateList[dateList.length-1][0];
 	//System.out.println(dateList.length);
 %>
 <script>
@@ -68,7 +68,7 @@
 
 		}
 	}
-	var datelist = [ [ "2018-02-01" ], [ "2018-02-02" ], [ "2018-02-03" ],
+	var dateList = [ [ "2018-02-01" ], [ "2018-02-02" ], [ "2018-02-03" ],
 			[ "2018-02-04" ], [ "2018-02-05" ], [ "2018-02-06" ],
 			[ "2018-02-07" ], [ "2018-02-08" ], [ "2018-02-09" ],
 			[ "2018-02-10" ], [ "2018-02-11" ], [ "2018-02-12" ],
@@ -78,14 +78,12 @@
 			[ "2018-02-22" ], [ "2018-02-23" ], [ "2018-02-24" ],
 			[ "2018-02-25" ], [ "2018-02-26" ], [ "2018-02-27" ],
 			[ "2018-02-28" ] ];
-	var dateList=new Array();
-	var dateListLength='<%=dateList.length %>';
-	var temString='<%=dateListString%>';
-	var temList=temString.split(",");
-	for(var i=0;i<dateListLength;i++){
-		dateList[i]=new Array();
-		dateList[i][0]=temList[i];
-	}
+	//var dateList=new Array();
+	//var temList=temString.split(",");
+	//for(var i=0;i<dateListLength;i++){
+	//	dateList[i]=new Array();
+	//	dateList[i][0]=temList[i];
+	//}
 	var currentMonth = '<%=currentMonth%>';
 	var currentDay = '2018-02-27';
 	window.onload = init;

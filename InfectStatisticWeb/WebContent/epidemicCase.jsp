@@ -1,4 +1,10 @@
 <%@ page pageEncoding="UTF-8"%>
+<% 
+	if(session.getAttribute("全国数据") == null)
+	{
+		request.getRequestDispatcher("PrepareServlet").forward(request, response);		
+	}
+%>
 <%@include file="include/header.jsp"%>
 <%@include file="include/navigator.jsp"%>
 <title>疫情动态</title>
@@ -21,10 +27,11 @@
 					<th>累计死亡</th>
 				</tr>
 				<tr>
-					<td class="infect">现有确诊</td>
-					<td class="suspected">现有疑似</td>
-					<td class="cure">累计治愈</td>
-					<td class="died">累计死亡</td>
+					<%//provincesMap在navigator.jsp中声明 %>
+					<td class="infect"><%=provincesMap.get("全国").getInfectNum() %></td>
+					<td class="suspected"><%=provincesMap.get("全国").getSuspectedNum() %></td>
+					<td class="cure"><%=provincesMap.get("全国").getCureNum()%></td>
+					<td class="died"><%=provincesMap.get("全国").getDiedNum() %></td>
 				</tr>
 			</table>
 		</div><div id="currentTime">
@@ -52,7 +59,6 @@
 		<script>
 			initNowInfect();
 		</script>
-		<p><%=dateList.length %></p>
 		<%@include file="include/footer.jsp"%>
 	</div>
 </body>
