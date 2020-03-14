@@ -93,11 +93,9 @@
 			}
 			myChart.on('click', function(params) {
 				//alert(params.name);
-				window.location.href = "test.jsp?paramsName=" + params.name;
+				window.location.href = "epidemicDetails.jsp?provinceName=" + params.name;
 			})
 		}
-	</script>
-<script type="text/javascript">
 		function initAllInfect() {
 			var myChart = echarts.init(document.getElementById('allInfect'));
 			var app = {};
@@ -185,7 +183,127 @@
 			}
 			myChart.on('click', function(params) {
 				//alert(params.name);
-				window.location.href = "test.jsp?paramsName=" + params.name;
+				window.location.href = "epidemicDetails.jsp?provinceName=" + params.name;
 			})
 		}
+		function initcalander(dateList, currentMonth, currentDay) {
+			var calander = echarts.init(document.getElementById("calander"));
+
+			var heatmapData = [];
+			var lunarData = [];
+			for (var i = 0; i < dateList.length; i++) {
+				heatmapData.push([ dateList[i][0], Math.random() * 300 ]);
+				lunarData.push({
+					value : [ dateList[i][0], 1, dateList[i][1], dateList[i][2] ],
+					symbol : 'rect', // 核心1，这边长方形来填充
+					itemStyle : {
+						color : '#81D0F1' // 填充色颜色
+					}
+				});
+			}
+			var option = {
+				visualMap : {
+					show : false,
+					min : 0,
+					max : 300,
+					calculable : true,
+					seriesIndex : [ 2 ],
+					orient : 'horizontal',
+					left : 'center',
+					bottom : 0,
+					inRange : {
+						color : [ '#fff', '#fff' ]
+					}
+				},
+				calendar : [ {
+					left : 'center',
+					top : 'middle',
+					cellSize : [ '80', '40' ], // 设置日历格的大小，可支持设置不同高宽
+					yearLabel : {
+						show : false
+					}, // 显示年度
+					orient : 'vertical', // 
+					dayLabel : {
+						firstDay : 1, // 从1号开始
+						margin : 0, // 星期标签与轴线之间的距离
+						padding : [ 15, 22, 15, 22 ],
+						backgroundColor : '#FAFAFA', // 可以是直接的颜色值，例如：'#123234', 'red', rgba(0,23,11,0.3)'
+						color : '#85807C',
+						nameMap : [ '星期日', '星期一', '星期二', '星期三', '星期四', '星期五', '星期六' ]
+					// cn或者en，也可以是数组
+					},
+					monthLabel : {
+						show : false, // 显示月度
+						margin : 100
+					// 月份和y轴的间距
+					},
+					range : currentMonth, // 当前日历显示的月份
+					itemStyle : {
+						borderColor : '#F0F0F0'
+					},
+					splitLine : {
+						show : false
+					}
+				} ],
+
+				series : [
+						{
+							type : 'scatter',
+							coordinateSystem : 'calendar',
+							symbolSize : function(param, e, m) { // 核心2，把需要高亮的日期，宽度高度设置成和单元格宽度高度一样
+								if (e.value[0] == currentDay) {
+									return [ 80, 40 ]
+								} else {
+									return 1
+								}
+							},
+							label : {
+								normal : {
+									show : true,
+									formatter : function(params) {
+										var d = echarts.number
+												.parseDate(params.value[0]);
+										return '\n'+d.getDate() + '\n';
+									},
+									textStyle : {
+										color : '#000'
+									}
+								}
+							},
+							data : lunarData
+						}, {
+							type : 'scatter',
+							coordinateSystem : 'calendar',
+							symbolSize : 1,
+							label : {
+								normal : {
+									show : true,
+									formatter : function(params) {
+										return '\n\n\n' + (params.value[3] || '');
+									},
+									textStyle : {
+										fontSize : 14,
+										fontWeight : 600,
+										color : '#a00'
+									}
+								}
+							},
+							data : lunarData
+						}, {
+							type : 'heatmap',
+							coordinateSystem : 'calendar',
+							data : heatmapData
+						} ]
+			};
+
+			calander.on('click', function(params) {
+				currentDay = params.value[0];
+				calander.setOption(option);
+				window.location.href = "test.jsp?paramsName=" + params.value[0];
+				// 这边写自己的业务逻辑，例如当天日期的日程安排
+
+			});
+			calander.setOption(option);
+		}
 	</script>
+	
