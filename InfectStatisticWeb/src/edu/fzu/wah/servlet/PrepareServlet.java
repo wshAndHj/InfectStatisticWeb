@@ -33,8 +33,7 @@ public class PrepareServlet extends HttpServlet {//该类用于最初的调用be
     public PrepareServlet() {
         super();
         // TODO Auto-generated constructor stub
-		String parameters = "-list -log F:\\GitHub\\InfectStatisticWeb\\InfectStatisticWeb\\log"
-				+ " -date 2020-02-02";
+		String parameters = "-list -log log";	
 		prepareOpearte(parameters);
     }
 
@@ -47,6 +46,7 @@ public class PrepareServlet extends HttpServlet {//该类用于最初的调用be
 
 		request.getSession().setAttribute("全国数据", allProvincesInfoMap);
 		System.out.println("添加完成");
+		//System.out.println(System.getProperty("user.dir"));
 		request.getRequestDispatcher("epidemicCase.jsp").forward(request, response);
 	}
 

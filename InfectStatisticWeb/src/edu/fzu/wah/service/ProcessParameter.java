@@ -18,8 +18,10 @@ public class ProcessParameter {
 
 
     public void processParameters(String []args){
+    	File file = new File("test.txt");
+    	System.out.println("test.txt:" + file.getAbsolutePath());
         List list = Arrays.asList(args);
-
+        System.out.println(System.getProperty("user.dir"));
         int dateIndex = list.indexOf("-date");//截止日期.
         String dateString = "";
         if (dateIndex > 0) {//如果有传入-date参数
@@ -43,6 +45,12 @@ public class ProcessParameter {
         }
         String dirPath = args[dirIndex + 1];//日志文件夹路径
         logDir = new File(dirPath);//日志文件夹
+        
+        if(logDir == null) {
+        	System.out.println("log path error");
+        }else {
+        	System.out.println(logDir.getAbsolutePath());
+        }
 
         int outputIndex = list.indexOf("-out");//输出文件目录
 //        if (outputIndex < 0) {
