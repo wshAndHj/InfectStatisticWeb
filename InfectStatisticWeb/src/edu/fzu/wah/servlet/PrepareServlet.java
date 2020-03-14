@@ -6,6 +6,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
+import java.lang.*;
 import java.util.List;
 
 import javax.servlet.ServletException;
@@ -33,7 +34,7 @@ public class PrepareServlet extends HttpServlet {//该类用于最初的调用be
     public PrepareServlet() {
         super();
         // TODO Auto-generated constructor stub
-		String parameters = "-list -log log";	
+		String parameters = "-list -log F:\\GitHub\\InfectStatisticWeb\\InfectStatisticWeb\\src\\edu\\fzu\\wah\\service\\log";	
 		prepareOpearte(parameters);
     }
 
@@ -47,7 +48,7 @@ public class PrepareServlet extends HttpServlet {//该类用于最初的调用be
 		request.getSession().setAttribute("全国数据", allProvincesInfoMap);
 		System.out.println("添加完成");
 		//System.out.println(System.getProperty("user.dir"));
-		request.getRequestDispatcher("epidemicCase.jsp").forward(request, response);
+		request.getRequestDispatcher("migrationMap.jsp").forward(request, response);
 	}
 
 	/**

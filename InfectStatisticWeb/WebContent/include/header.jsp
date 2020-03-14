@@ -13,6 +13,7 @@
 <link href="http://libs.baidu.com/bootstrap/3.0.3/css/bootstrap.min.css"
 	rel="stylesheet">
 <link href="css/front/style.css" rel="stylesheet">
+<link href="css/front/migrationMap.css" rel="stylesheet">
 <script src="https://cdn.bootcss.com/echarts/4.2.1-rc1/echarts.min.js"></script>
 <script type="text/javascript"
 	src="https://cdn.jsdelivr.net/npm/echarts/dist/echarts.min.js"></script>

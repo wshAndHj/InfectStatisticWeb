@@ -62,6 +62,7 @@ public class InfectStatistic {
 			processDate(date);
 			SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd");
 			for (String fileDateString : fileList) {
+				System.out.println(fileDateString);
 				File file = new File(dir.getPath() + "/" + fileDateString + ".log.txt");
 				Date fileDate = simpleDateFormat.parse(fileDateString);// 日志日期
 				if (date != null && fileDate.compareTo(date) > 0) {
@@ -89,6 +90,7 @@ public class InfectStatistic {
 	}
 
 	public void updateProvinceInfo(String line) {
+		System.out.println(line);
 		String message[] = line.split(" ");
 		ProvinceInfo province = provinceMap.get(message[0]);
 		String lastMessage = message[message.length - 1];
@@ -129,6 +131,7 @@ public class InfectStatistic {
 			}
 			break;
 		case 5:// 从A省流入B省
+			System.out.println("migration");
 			ProvinceInfo provinceB = provinceMap.get(message[3]);
 			province.addProvinceMigrationOut(message[3], num);// 记录A省中迁出到B省的人数+num
 			provinceB.addProvinceMigrationIn(message[0], num);// 记录B省中从A省迁入的人数+num
