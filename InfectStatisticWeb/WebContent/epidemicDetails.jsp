@@ -6,8 +6,13 @@
 %>
 <%@include file="include/header.jsp"%>
 <%@include file="include/navigator.jsp"%>
-<title>疫情动态</title>
+<%@include file="include/detailsJS.jsp"%>
+<%
+	String provinceName = request.getParameter("provinceName");
+%>
+<title>疫情详情--<%=provinceName%></title>
 </head>
+
 <body>
 	<div id="main">
 		<div id="navitagorDiv">
@@ -29,10 +34,10 @@
 					<%
 						//provincesMap在navigator.jsp中声明
 					%>
-					<td class="infect"><%=provincesMap.get("全国").getInfectNum()%></td>
-					<td class="suspected"><%=provincesMap.get("全国").getSuspectedNum()%></td>
-					<td class="cure"><%=provincesMap.get("全国").getCureNum()%></td>
-					<td class="died"><%=provincesMap.get("全国").getDiedNum()%></td>
+					<td class="infect"><%=provincesMap.get(provinceName).getInfectNum()%></td>
+					<td class="suspected"><%=provincesMap.get(provinceName).getSuspectedNum()%></td>
+					<td class="cure"><%=provincesMap.get(provinceName).getCureNum()%></td>
+					<td class="died"><%=provincesMap.get(provinceName).getDiedNum()%></td>
 				</tr>
 			</table>
 		</div>
@@ -51,24 +56,32 @@
 		<script>
 			initcalander(dateList, currentMonth, currentDay);
 		</script>
-		<div class="doubleChoiceDiv">
+		<div id="diagramNewInfect" class="show"></div>
+		<script>
+			initDiagramNewInfect(currentDay);
+		</script>
+		<div id="diagramNewSuspected" class="hidden"></div>
+		<script>
+			initDiagramNewSuspected(currentDay);
+		</script>
+		<div id="diagramTotalCureAndDied" class="hidden"></div>
+		<script>
+			initTotalCureAndDied(currentDay);
+		</script>
+		<div class="thirdChoiceDiv">
 			<table>
-				<tr id="doubleChoiceTr">
-					<th class="selected">现有确诊</th>
-					<th class="unselected">累计确诊</th>
+				<tr id="thirdChoiceTr">
+					<th class="selected">新增<br />确诊趋势
+					</th>
+					<th class="unselected">新增<br />疑似趋势
+					</th>
+					<th class="unselected">累计<br />治愈/死亡
+					</th>
 				</tr>
 			</table>
 		</div>
-		<div id="nowInfect"></div>
 		<script>
-			initNowInfect();
-		</script>
-		<div id="allInfect"></div>
-		<script>
-			initAllInfect();
-		</script>
-		<script type="text/javascript">
-			initInfect();
+			initDiagram();
 		</script>
 		<%@include file="include/footer.jsp"%>
 	</div>

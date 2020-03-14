@@ -6,6 +6,13 @@ body {
 	clear: both;
 }
 
+.show{
+}
+
+.hidden{
+	display:none;
+}
+
 #main {
 	width: 1000px;
 	margin: 10px auto;
@@ -111,12 +118,12 @@ body {
 	text-align: center
 }
 
-.selected {
+.doubleChoiceDiv .selected {
 	border-radius: 10px;
 	background-color: rgb(233, 233, 233);
 }
 
-.unselected {
+.doubleChoiceDiv .unselected {
 	
 }
 
