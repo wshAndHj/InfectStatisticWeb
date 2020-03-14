@@ -5,6 +5,7 @@ import java.io.File;
 import java.io.FileReader;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Collections;
 import java.util.Date;
 import java.util.Formatter;
@@ -22,7 +23,13 @@ public class InfectStatistic {
 	private List<String> fileList = new ArrayList<>();
 	private int infectTotalNum, suspectedTotalNum, cureTotalNum, diedTotalNum;
 	private ProvinceInfo countryInfo = new ProvinceInfo("全国");
-
+	//保存各个省份近十天的数据
+	private HashMap<String, List<ProvinceInfo>> tendaysInfos = new HashMap<String, List<ProvinceInfo>>();
+	private Date firstDate;
+	private Date lastDate;
+	
+	
+	
 	public InfectStatistic() {
 		for (String p : provinceList) {
 			//System.out.print(p + "  ");
@@ -42,9 +49,17 @@ public class InfectStatistic {
 	public int processDate(Date date) {// 时间处理
 		try {
 			SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd");
-			String lastDateString = fileList.get(fileList.size() - 1);// 最大日期
-			Date lastDate = simpleDateFormat.parse(lastDateString);
-			if (date != null && date.compareTo(lastDate) > 0) {
+			String lastDateString = fileList.get(fileList.size() - 1);// 最大文件日期
+			String firstDateString = fileList.get(0);//最小文件日期
+			Date fileLastDate = simpleDateFormat.parse(lastDateString);
+			Date fileFirstDate = simpleDateFormat.parse(firstDateString);
+			firstDate = rollDay(date, -10);
+			lastDate = rollDay(fileFirstDate, 10);
+			firstDate = firstDate.compareTo(fileFirstDate) > 0 ? firstDate : fileFirstDate;
+			lastDate = lastDate.compareTo(date) > 0 ? lastDate : date;
+			System.out.println(firstDate);
+			System.out.println(lastDate);
+			if (date != null && date.compareTo(fileLastDate) > 0) {
 				System.out.println("抱歉，日期超出范围");
 				return -1;
 			}
@@ -203,6 +218,13 @@ public class InfectStatistic {
 			e.printStackTrace();
 		}
 	}
+	
+	public static Date rollDay(Date d, int day) {
+        Calendar cal = Calendar.getInstance();
+        cal.setTime(d);
+        cal.add(Calendar.DAY_OF_MONTH, day);
+        return cal.getTime();
+    }
 	
 	public void computeMigrationRate() {//计算并保存所有省份的迁入迁出比
 		for(ProvinceInfo p : provinceMap.values()) {

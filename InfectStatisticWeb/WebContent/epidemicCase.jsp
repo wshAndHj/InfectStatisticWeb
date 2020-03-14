@@ -59,11 +59,11 @@
 				</tr>
 			</table>
 		</div>
-		<div id="nowInfect"></div>
+		<div id="nowInfect" class="show"></div>
 		<script>
 			initNowInfect();
 		</script>
-		<div id="allInfect"></div>
+		<div id="allInfect" class="hidden"></div>
 		<script>
 			initAllInfect();
 		</script>
