@@ -44,11 +44,14 @@
 		<div id="currentTime">
 			<table>
 				<tr>
-					<td><a href=""><span
-							class="glyphicon glyphicon-chevron-left"></span></a></td>
+					<td><a href="<%= "PrepareServlet?currentMonth=" + currentMonth
+					+ "&ask=last&provinceName=" + request.getParameter("provinceName")%>">
+					<span class="glyphicon glyphicon-chevron-left"></span></a></td>
 					<td id="currentMonth"><%=currentMonth%></td>
-					<td><a href=""><span
-							class="glyphicon glyphicon-chevron-right"></span></a></span></td>
+					
+					<td><a href="<%= "PrepareServlet?currentMonth=" + currentMonth
+					+ "&ask=next&provinceName=" + request.getParameter("provinceName")%>">
+					<span class="glyphicon glyphicon-chevron-right"></span></a></span></td>
 				</tr>
 			</table>
 		</div>

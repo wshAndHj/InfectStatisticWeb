@@ -3,6 +3,8 @@ package edu.fzu.wah.service;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
+import java.text.DateFormat;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -23,8 +25,9 @@ public class InfectStatistic {
 	private List<String> fileList = new ArrayList<>();
 	private int infectTotalNum, suspectedTotalNum, cureTotalNum, diedTotalNum;
 	private ProvinceInfo countryInfo = new ProvinceInfo("全国");
-	//保存各个省份近十天的数据
-	private HashMap<String, List<ProvinceInfo>> tendaysInfos = new HashMap<String, List<ProvinceInfo>>();
+	//保存各个省份近十天的数据<省份，<日期，疫情情况>>
+	private HashMap<String, HashMap<String, ProvinceInfo>> tendaysInfos
+	= new HashMap<String, HashMap<String, ProvinceInfo>>();
 	private Date firstDate;
 	private Date lastDate;
 	
@@ -34,7 +37,10 @@ public class InfectStatistic {
 		for (String p : provinceList) {
 			//System.out.print(p + "  ");
 			provinceMap.put(p, new ProvinceInfo(p));
+			tendaysInfos.put(p,new HashMap<String, ProvinceInfo>());
 		}
+		provinceMap.put("全国", countryInfo);
+		tendaysInfos.put("全国", new HashMap<String, ProvinceInfo>());
 	
 		infectTotalNum = suspectedTotalNum = cureTotalNum = diedTotalNum = 0;
 	}
@@ -53,15 +59,24 @@ public class InfectStatistic {
 			String firstDateString = fileList.get(0);//最小文件日期
 			Date fileLastDate = simpleDateFormat.parse(lastDateString);
 			Date fileFirstDate = simpleDateFormat.parse(firstDateString);
+			//System.out.println("first" + firstDateString);
+			//System.out.println("last" +lastDateString);
 			firstDate = rollDay(date, -10);
-			lastDate = rollDay(fileFirstDate, 10);
-			firstDate = firstDate.compareTo(fileFirstDate) > 0 ? firstDate : fileFirstDate;
-			lastDate = lastDate.compareTo(date) > 0 ? lastDate : date;
-			System.out.println(firstDate);
-			System.out.println(lastDate);
-			if (date != null && date.compareTo(fileLastDate) > 0) {
-				System.out.println("抱歉，日期超出范围");
-				return -1;
+			lastDate = date;
+			//System.out.println(firstDate);
+			//System.out.println(lastDate);
+			DateFormat format = new SimpleDateFormat("yyyy-MM-dd");
+			//System.out.println("lastdate:" + format.format(lastDate));
+			while(firstDate.compareTo(fileFirstDate) < 0) {
+				String dateString = format.format(firstDate);
+				for(String p : provinceList) {
+					HashMap<String, ProvinceInfo> map = tendaysInfos.get(p);
+					map.put(dateString, new ProvinceInfo(p));
+				}
+				HashMap<String, ProvinceInfo> map = tendaysInfos.get("全国");
+				map.put(dateString, new ProvinceInfo("全国"));
+				//System.out.println(dateString);
+				firstDate = rollDay(firstDate, 1);
 			}
 		} catch (Exception e) {
 			return -1;
@@ -76,27 +91,36 @@ public class InfectStatistic {
 			processLogDir(dir);
 			processDate(date);
 			SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd");
+			String filedate = "";
 			for (String fileDateString : fileList) {
-				System.out.println(fileDateString);
+				filedate = fileDateString;
+				//System.out.println("filedate" +filedate);
+				//System.out.println(fileDateString);
 				File file = new File(dir.getPath() + "/" + fileDateString + ".log.txt");
 				Date fileDate = simpleDateFormat.parse(fileDateString);// 日志日期
-				if (date != null && fileDate.compareTo(date) > 0) {
+				if (date != null && fileDate.compareTo(lastDate) > 0) {
+					System.out.println("break");
 					break;
 				}
 				reader = new BufferedReader(new FileReader(file));
-
-				
 				while ((line = reader.readLine()) != null) {
 					if (line.length() > 1 && line.charAt(0) != '/') {// 该行不为注释
 						updateProvinceInfo(line);
 					}
 				}
+				countryInfo.setCureNum(cureTotalNum);
+				countryInfo.setDiedNum(diedTotalNum);
+				countryInfo.setInfectNum(infectTotalNum);
+				countryInfo.setSuspectedNum(suspectedTotalNum);
+				
+				if(fileDate.compareTo(firstDate) >= 0) {
+					recordTendaysInfos(fileDateString);						
+				}
+				//System.out.println("tenday infectNum:"
+				//+ tendaysInfos.get("全国").get(fileDateString).getInfectNum());
+				//System.out.println("filedate" + fileDateString);
 			}
-			countryInfo.setCureNum(cureTotalNum);
-			countryInfo.setDiedNum(diedTotalNum);
-			countryInfo.setInfectNum(infectTotalNum);
-			countryInfo.setSuspectedNum(suspectedTotalNum);
-			provinceMap.put("全国", countryInfo);
+			addEndBeyoudInof(filedate);
 		} catch (Exception e) {
 
 		}
@@ -105,7 +129,7 @@ public class InfectStatistic {
 	}
 
 	public void updateProvinceInfo(String line) {
-		System.out.println(line);
+		//System.out.println(line);
 		String message[] = line.split(" ");
 		ProvinceInfo province = provinceMap.get(message[0]);
 		String lastMessage = message[message.length - 1];
@@ -146,7 +170,7 @@ public class InfectStatistic {
 			}
 			break;
 		case 5:// 从A省流入B省
-			System.out.println("migration");
+			//System.out.println("migration");
 			ProvinceInfo provinceB = provinceMap.get(message[3]);
 			province.addProvinceMigrationOut(message[3], num);// 记录A省中迁出到B省的人数+num
 			provinceB.addProvinceMigrationIn(message[0], num);// 记录B省中从A省迁入的人数+num
@@ -219,7 +243,45 @@ public class InfectStatistic {
 		}
 	}
 	
-	public static Date rollDay(Date d, int day) {
+	private void recordTendaysInfos(String dateString) {
+		for(String p : provinceList) {
+			HashMap<String, ProvinceInfo> map = tendaysInfos.get(p);
+			ProvinceInfo addInfo = new ProvinceInfo(provinceMap.get(p));
+			addInfo.setDate(dateString);
+			map.put(dateString, addInfo);
+		}
+		HashMap<String, ProvinceInfo> map = tendaysInfos.get("全国");
+		ProvinceInfo addInfo = new ProvinceInfo(provinceMap.get("全国"));
+		addInfo.setDate(dateString);
+		map.put(dateString, addInfo);
+		//System.out.println("xxx " + dateString);
+	}
+	
+	//记录超出文件所包含的数据
+	private void addEndBeyoudInof(String dateString) {
+		SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd");
+		Date date;
+		try {
+			date = simpleDateFormat.parse(dateString);
+			while(date.compareTo(lastDate) <= 0) {
+				dateString = simpleDateFormat.format(date);
+				for(String p : provinceList) {
+					HashMap<String, ProvinceInfo> map = tendaysInfos.get(p);
+					map.put(dateString, provinceMap.get(p));
+				}
+				HashMap<String, ProvinceInfo> map = tendaysInfos.get("全国");
+				map.put("全国", provinceMap.get("全国"));
+				date = rollDay(date, 1);
+				//System.out.println(dateString);
+			}
+		} catch (ParseException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+	}
+	
+	public static Date rollDay(Date d, int day) {//获取某天日期的后day天(当day为负数时为前几天)
         Calendar cal = Calendar.getInstance();
         cal.setTime(d);
         cal.add(Calendar.DAY_OF_MONTH, day);
@@ -258,6 +320,10 @@ public class InfectStatistic {
 
 	public int getDiedTotalNum() {
 		return diedTotalNum;
+	}
+	
+	public HashMap<String, HashMap<String, ProvinceInfo>> getTendaysInfo(){
+		return tendaysInfos;
 	}
 
 }

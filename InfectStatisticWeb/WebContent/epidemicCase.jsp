@@ -39,11 +39,13 @@
 		<div id="currentTime">
 			<table>
 				<tr>
-					<td><a href=""><span
-							class="glyphicon glyphicon-chevron-left"></span></a></td>
+					<td><a href="<%= "PrepareServlet?currentMonth=" + currentMonth
+					+ "&ask=last"%>">
+					<span class="glyphicon glyphicon-chevron-left"></span></a></td>
+					<%request.setAttribute("name", "123"); %>
 					<td id="currentMonth"><%=currentMonth%></td>
-					<td><a href=""><span
-							class="glyphicon glyphicon-chevron-right"></span></a></span></td>
+					<td><a href=<%= "PrepareServlet?currentMonth=" + currentMonth
+					+ "&ask=next"%>><span class="glyphicon glyphicon-chevron-right"></span></a></span></td>
 				</tr>
 			</table>
 		</div>

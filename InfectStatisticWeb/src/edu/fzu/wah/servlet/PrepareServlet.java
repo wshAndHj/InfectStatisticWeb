@@ -18,6 +18,8 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.apache.commons.lang.builder.StandardToStringStyle;
+
 import edu.fzu.wah.pojo.ProvinceInfo;
 import edu.fzu.wah.pojo.ProvinceMigration;
 import edu.fzu.wah.service.InfectStatistic;
@@ -30,6 +32,9 @@ import edu.fzu.wah.service.ProcessParameter;
 public class PrepareServlet extends HttpServlet {//该类用于最初的调用bean类中的方法，对日志文件的数据进行处理
 	private static final long serialVersionUID = 1L;
 	static private HashMap<String, ProvinceInfo> allProvincesInfoMap = null;
+	static private HashMap<String, HashMap<String, ProvinceInfo>> tenDaysInfos = null;//保存各省十天的数据
+	static public SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd");
+	private String currentMounth;
        
     /**
      * @see HttpServlet#HttpServlet()
@@ -39,6 +44,7 @@ public class PrepareServlet extends HttpServlet {//该类用于最初的调用be
         // TODO Auto-generated constructor stub
 		String parameters = "-list -log F:\\GitHub\\InfectStatisticWeb\\InfectStatisticWeb\\src\\edu\\fzu\\wah\\service\\log";	
 		parameters += " -date 2020-02-01";
+		//getMonthDataOfFront("2020-02",2);
 		prepareOpearte(parameters);
     }
     
@@ -59,7 +65,19 @@ public class PrepareServlet extends HttpServlet {//该类用于最初的调用be
 		request.getSession().setAttribute("全国数据", allProvincesInfoMap);
 		System.out.println("添加完成");
 		//System.out.println(System.getProperty("user.dir"));
-		request.getRequestDispatcher("epidemicCase.jsp").forward(request, response);
+		//request.getRequestDispatcher("epidemicCase.jsp").forward(request, response);
+		String provinceName = request.getParameter("provinceName");
+		if(provinceName != null) {
+			request.setAttribute("provinceName", provinceName);
+		}
+		if(request.getParameter("currentMonth") != null) {//是日期请求
+			doDateRequest(request, response);
+		}else {			
+			request.setAttribute("currentMonth", "2020-03");
+			List<String> list = getMonthDataOfFront("2020-03",1);
+			request.setAttribute("dates", list);
+			request.getRequestDispatcher("NewFile.jsp").forward(request, response);
+		}
 	}
 
 	/**
@@ -78,6 +96,7 @@ public class PrepareServlet extends HttpServlet {//该类用于最初的调用be
 		InfectStatistic infectStatistic = new InfectStatistic();
         infectStatistic.statistic(processParameter.getLogDir(), processParameter.getDate());
         allProvincesInfoMap = infectStatistic.getProvinceMap();//各省份的疫情信息(包含全国)，信息包含四个数据和省名
+        tenDaysInfos = infectStatistic.getTendaysInfo();
 	}
 	
 	
@@ -102,5 +121,68 @@ public class PrepareServlet extends HttpServlet {//该类用于最初的调用be
 		}
 		
 	}
+	
+	public static int getDaysOfMonth(Date date) {
+		Calendar calendar = Calendar.getInstance();
+		calendar.setTime(date);
+		return calendar.getActualMaximum(Calendar.DAY_OF_MONTH);
+	}
+
+	public List<String> getMonthDataOfFront(String month, int flag){//flag：0上个月，1这个月,2下个月
+		Date date;
+		List<String> list = new ArrayList<String>();
+		try {
+			date = simpleDateFormat.parse(month + "-01");
+			Date targetDate = null;
+			if(flag == 1) {
+				targetDate = InfectStatistic.rollDay(date, 0);			
+			}else if(flag == 0) {
+				targetDate = InfectStatistic.rollDay(date, -2);
+			}else if(flag == 2) {
+				targetDate = InfectStatistic.rollDay(date, 35);
+			}
+			
+			int num = getDaysOfMonth(targetDate);
+			String dateString = simpleDateFormat.format(targetDate);
+			String dates[] = dateString.split("-");
+			currentMounth = dates[0] + "-" + dates[1];
+			for(int i = 1; i <= num; i++) {
+				if(i < 10) {
+					list.add(dates[0] + "-" + dates[1] + "-0" + i);					
+				}else {
+					list.add(dates[0] + "-" + dates[1] + "-" + i);
+				}
+			}
+//			for(String s : list) {
+//				System.out.println(s);
+//			}
+		} catch (ParseException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		return list;
+	}
+	
+	public void doDateRequest(HttpServletRequest request, HttpServletResponse response)throws ServletException, IOException  {
+		String date = (String) request.getParameter("currentMonth");
+		String origin = (String) request.getParameter("origin");
+		int type = 1;
+		if(request.getParameter("ask") != null) {
+			String askString = (String) request.getParameter("ask");
+			if(askString.equals("last")) {
+				type = 0;
+			}else {
+				type = 2;
+			}
+		}
+		List<String> list = getMonthDataOfFront(date, type);
+		request.setAttribute("currentMonth", currentMounth);
+		//System.out.println("currentMounth:" + currentMounth);
+		request.setAttribute("dates", list);
+		request.getRequestDispatcher("NewFile.jsp").forward(request, response);
+	}
+	
+	
 	
 }
