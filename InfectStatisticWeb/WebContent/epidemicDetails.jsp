@@ -18,7 +18,7 @@
 		<div id="navitagorDiv">
 			<nav>
 				<a href="epidemicCase.jsp">疫情动态</a> <a href="admin_category_list">患者流动</a>
-				<a href="userServlet">图表定制</a> <a href="admin_order_list">预防指南</a>
+				<a href="userServlet">图表定制</a> <a href="proventGuide">预防指南</a>
 			</nav>
 		</div>
 		<div class="clear"></div>
