@@ -1,0 +1,42 @@
+@charset "UTF-8";
+.marginTable{
+    background-color: rgb(238, 236, 236);
+    width:80%;
+    margin: 0 auto;
+    padding:10%;
+}
+
+td{
+	padding: 20px 0;
+}
+
+.column1{
+    width:15%;
+    text-align: center;
+}
+.column2{
+    width:55%;
+    font-weight: bolder;
+}
+.column3{
+    width:30%;
+    font-weight: bolder;
+}
+
+.row1{
+	font-weight: 900;
+    color: rgb(250, 12, 12);
+    text-align: center;
+}
+
+.row2{
+	font-weight: 900;
+    color: rgb(250, 81, 29);
+    text-align: center;
+}
+
+.row3{
+	font-weight: 900;
+    color: rgb(250, 217, 29);
+    text-align: center;
+}

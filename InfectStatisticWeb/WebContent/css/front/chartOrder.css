@@ -1,0 +1,22 @@
+#histogramNewInfect {
+	margin: 20px auto;
+	width: 900px;
+	height: 600px;
+}
+
+#histogramNewSuspected {
+	margin: 20px auto;
+	width: 900px;
+	height: 600px;
+}
+
+#histogramTotalCureAndDied {
+	margin: 20px auto;
+	width: 900px;
+	height: 600px;
+}
+
+#selects{
+	margin: 20px auto;
+	width:400px;
+}
