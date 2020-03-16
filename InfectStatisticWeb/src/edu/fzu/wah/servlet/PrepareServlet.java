@@ -42,9 +42,13 @@ public class PrepareServlet extends HttpServlet {//该类用于最初的调用be
     public PrepareServlet() {
         super();
         // TODO Auto-generated constructor stub
+<<<<<<< HEAD
 		String parameters = "-list -log F:\\GitHub\\InfectStatisticWeb\\InfectStatisticWeb\\src\\edu\\fzu\\wah\\service\\log";	
 		parameters += " -date 2020-02-01";
 		//getMonthDataOfFront("2020-02",2);
+=======
+		String parameters = "-list -log C:\\Users\\Acer\\Documents\\GitHub\\InfectStatisticWeb\\InfectStatisticWeb\\src\\edu\\fzu\\wah\\service\\log";	
+>>>>>>> 10dc93e4723eeae92c4da48dbf094b8b4daba0ca
 		prepareOpearte(parameters);
     }
     
@@ -65,6 +69,7 @@ public class PrepareServlet extends HttpServlet {//该类用于最初的调用be
 		request.getSession().setAttribute("全国数据", allProvincesInfoMap);
 		System.out.println("添加完成");
 		//System.out.println(System.getProperty("user.dir"));
+<<<<<<< HEAD
 		//request.getRequestDispatcher("epidemicCase.jsp").forward(request, response);
 		String provinceName = request.getParameter("provinceName");
 		if(provinceName != null) {
@@ -78,6 +83,9 @@ public class PrepareServlet extends HttpServlet {//该类用于最初的调用be
 			request.setAttribute("dates", list);
 			request.getRequestDispatcher("NewFile.jsp").forward(request, response);
 		}
+=======
+		request.getRequestDispatcher("epidemicCase.jsp").forward(request, response);
+>>>>>>> 10dc93e4723eeae92c4da48dbf094b8b4daba0ca
 	}
 
 	/**

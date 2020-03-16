@@ -6,11 +6,17 @@ body {
 	clear: both;
 }
 
-.show{
+.show {
+	
 }
 
-.hidden{
-	display:none;
+.hidden {
+	display: none;
+}
+
+.leftTitle {
+    width:80%;
+    margin:0 auto;
 }
 
 #main {
@@ -100,7 +106,7 @@ body {
 
 .doubleChoiceDiv {
 	width: 600px;
-	margin: 5px auto;
+	margin: 15px auto;
 	background-color: rgba(206, 206, 206, 1);
 	border-radius: 15px;
 	padding: 1px;

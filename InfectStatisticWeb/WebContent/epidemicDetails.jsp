@@ -18,7 +18,7 @@
 		<div id="navitagorDiv">
 			<nav>
 				<a href="epidemicCase.jsp">疫情动态</a> <a href="admin_category_list">患者流动</a>
-				<a href="userServlet">图表定制</a> <a href="proventGuide">预防指南</a>
+				<a href="userServlet">图表定制</a> <a href="proventGuide.jsp">预防指南</a>
 			</nav>
 		</div>
 		<div class="clear"></div>
@@ -48,10 +48,15 @@
 					+ "&ask=last&provinceName=" + request.getParameter("provinceName")%>">
 					<span class="glyphicon glyphicon-chevron-left"></span></a></td>
 					<td id="currentMonth"><%=currentMonth%></td>
+<<<<<<< HEAD
 					
 					<td><a href="<%= "PrepareServlet?currentMonth=" + currentMonth
 					+ "&ask=next&provinceName=" + request.getParameter("provinceName")%>">
 					<span class="glyphicon glyphicon-chevron-right"></span></a></span></td>
+=======
+					<td><a href=""><span
+							class="glyphicon glyphicon-chevron-right"></span></a></td>
+>>>>>>> 10dc93e4723eeae92c4da48dbf094b8b4daba0ca
 				</tr>
 			</table>
 		</div>
