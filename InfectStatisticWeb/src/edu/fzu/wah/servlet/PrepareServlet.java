@@ -36,7 +36,7 @@ public class PrepareServlet extends HttpServlet {// 该类用于最初的调用b
 	static public SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd");
 	private String currentMonth;
 	private String currentDay;
-	private String parameters = "-list -log F:\\GitHub\\InfectStatisticWeb\\InfectStatisticWeb\\src\\edu\\fzu\\wah\\service\\log";
+	private String parameters = "-list -log log";
 
 	/**
 	 * @see HttpServlet#HttpServlet()
